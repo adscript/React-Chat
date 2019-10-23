@@ -30,6 +30,18 @@ export default class ChatBox extends React.Component {
                 typer
             })
         })
+
+        socket.on('stop typing', () => {
+            this.setState({
+                typer: ''
+            })
+        })
+
+        socket.on('delete chat', (id) => {
+            this.setState(state => ({
+                data: state.data.filter(chatData => chatData.id !== id)
+            }));
+        })
     }
 
     componentDidUpdate() {
@@ -69,6 +81,7 @@ export default class ChatBox extends React.Component {
                 }));
                 axios.delete(API_URL + `/${id}`)
                     .then((response) => {
+                        socket.emit('delete chat', id);
                         Swal.fire({
                             type: 'success',
                             title: `Chat from ${response.data.chatDeleted.name} Deleted`,
@@ -91,6 +104,7 @@ export default class ChatBox extends React.Component {
                 .then((response) => {
                     let chatData = { ...response.data.chatAdded, status: true }
                     socket.emit('add chat', chatData)
+                    socket.emit('stop typing')
                 })
                 .catch(err => {
                     this.setState(state => ({
@@ -136,7 +150,7 @@ export default class ChatBox extends React.Component {
                     <div className="card">
                         <div className="card-header text-center" >
                             <h3 style={{ fontWeight: 600 }}>React Chat</h3>
-                            <p className="text-center">{this.state.typer.length > 0 ? `${this.state.typer} is typing` : ''}</p>
+                            <p className="text-center">{this.state.typer.length > 0 ? `${this.state.typer} is typing...` : ''}</p>
                         </div>
                         <div className="card-body">
                             <ul className="list-group">
