@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost:27017/reactchat', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect('mongodb://localhost:27017/reactchat', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -42,8 +42,16 @@ var server = http.createServer(app);
 
 var io = require('socket.io')(server);
 
-io.on('connection', function(socket){
-    console.log('a user connected');
+io.on('connection', function (socket) {
+
+  socket.on('typing', (typer) => {
+    socket.broadcast.emit('typing', typer);
+  });
+
+  socket.on('add chat', (chatData = {}) => {
+    socket.broadcast.emit('load chat', chatData);
+  });
+  
 })
 
 /**
