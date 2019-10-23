@@ -33,7 +33,7 @@ router.post('/', function (req, res, next) {
 })
 
 router.delete('/:id', function (req, res, next) {
-  Chat.findOneAndRemove({ id: req.params.id })
+  Chat.findOneAndRemove({ id: Number(req.params.id) })
     .then(item => {
       res.json({
         error: false,
