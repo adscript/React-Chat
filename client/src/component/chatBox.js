@@ -20,6 +20,16 @@ export default class ChatBox extends React.Component {
         this.loadChat().then(() => {
             this.scrollToBottom();
         })
+
+        socket.on('load chat', (newData) => {
+            this.setState((state) => ({ data: [...state.data, newData] }));
+        })
+
+        socket.on('typing', (typer) => {
+            this.setState({
+                typer
+            })
+        })
     }
 
     componentDidUpdate() {
@@ -79,6 +89,8 @@ export default class ChatBox extends React.Component {
             });
             axios.post(API_URL, { id, name, chat })
                 .then((response) => {
+                    let chatData = { ...response.data.chatAdded, status: true }
+                    socket.emit('add chat', chatData)
                 })
                 .catch(err => {
                     this.setState(state => ({
@@ -105,14 +117,12 @@ export default class ChatBox extends React.Component {
 
     scrollToBottom = () => {
         if (this.endRef)
-            this.endRef.scrollIntoView({ behavior: "smooth" });
+            this.endRef.scrollIntoView();
 
     }
 
     typingChat = (name) => {
-        this.setState({
-            typer: name
-        })
+        socket.emit('typing', name);
     }
 
     render() {

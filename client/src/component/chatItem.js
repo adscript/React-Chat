@@ -12,7 +12,7 @@ function todayConvert(date) {
 }
 
 function chatItem(props) {
-    let {name, chat, id} = props.chatData;
+    let { name, chat, id } = props.chatData;
     return (
         <li className="list-group-item borderless d-flex justify-content-between align-items-center">
             <button className={`btn ${props.color} btn-circle btn-circle-lg m-1`}><i
@@ -20,7 +20,13 @@ function chatItem(props) {
             <div className="speech-bubble col-11" style={{ color: '#fff' }}>
                 <div className="row justify-content-between mx-1">
                     <h5>{name}</h5>
-                    <span>{props.chatData.status ? todayConvert(id) : (<button className="btn text-white bg-transparent" onClick={() => props.resendChat(name,chat,id)}>resend chat <i className="fas fa-sync-alt "></i></button>)}</span>
+                    <span>
+                        {props.chatData.status ?
+                            todayConvert(id) :
+                            (<button className="btn text-white bg-transparent" onClick={() => props.resendChat(name, chat, id)}>
+                                resend chat <i className="fas fa-sync-alt "></i>
+                            </button>)}
+                    </span>
                 </div>
                 <h6>{chat}</h6>
             </div>

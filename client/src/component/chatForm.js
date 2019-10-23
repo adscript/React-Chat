@@ -43,6 +43,7 @@ export default class ChatForm extends React.Component {
             } else {
                 this.props.setTyper('');
             }
+
         }
     }
 
