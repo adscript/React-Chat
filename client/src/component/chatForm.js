@@ -28,6 +28,7 @@ export default class ChatForm extends React.Component {
             name: '',
             chat: ''
         })
+
     }
 
     handleReturnKey(e) {
@@ -35,6 +36,13 @@ export default class ChatForm extends React.Component {
             e.preventDefault()
             let button = document.getElementById('submitBtn');
             button.click();
+        } else {
+            let {chat, name} = this.state;
+            if(chat.length > 0){
+               name.length > 0 ? this.props.setTyper(name) : this.props.setTyper('unknown');
+            } else {
+                this.props.setTyper('');
+            }
         }
     }
 
