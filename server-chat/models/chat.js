@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var chatSchema = new Schema({
-    id: String,
+    id: Number,
     name: {
         type: String,
         require: true
