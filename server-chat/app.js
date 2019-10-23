@@ -5,7 +5,7 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 var cors = require('cors');
 
-// var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/index');
 var chatsRouter = require('./routes/chats');
 var usersRouter = require('./routes/users');
 
@@ -20,8 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-app.use('/', chatsRouter);
-// app.use('/', indexRouter);
+app.use('/api/chats', chatsRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 var debug = require('debug')('server-chat:server');
@@ -39,6 +39,12 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+    console.log('a user connected');
+})
 
 /**
  * Listen on provided port, on all network interfaces.
