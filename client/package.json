@@ -7,6 +7,7 @@
     "moment": "^2.24.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-markdown": "^4.2.2",
     "react-scripts": "3.2.0",
     "socket.io-client": "^2.3.0",
     "sweetalert2": "^8.18.5"
