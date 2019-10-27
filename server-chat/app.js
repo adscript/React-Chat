@@ -48,9 +48,17 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('typing', typer);
   });
 
+  socket.on('stop typing', () => {
+    socket.broadcast.emit('stop typing');
+  })
+
   socket.on('add chat', (chatData = {}) => {
     socket.broadcast.emit('load chat', chatData);
   });
+
+  socket.on('delete chat', id => {
+    socket.broadcast.emit('delete chat', id);
+  })
   
 })
 
